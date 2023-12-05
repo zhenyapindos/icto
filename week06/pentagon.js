@@ -2,8 +2,7 @@ let markerVisible = {
   A: false,
   B: false,
   C: false,
-  D: false,
-  E: false
+  D: false
 };
 
 AFRAME.registerComponent('registerevents', {
@@ -68,7 +67,7 @@ AFRAME.registerComponent('run', {
     this.lineEA = document.querySelector('#lineCA').object3D;
     this.lineEA.add(this.cylinderEA);
     this.cylinderEA.visible = false;
-    
+
     this.lineAB = this.createLine();
     this.lineBF = this.createLine();
     this.lineFD = this.createLine();
@@ -85,56 +84,42 @@ AFRAME.registerComponent('run', {
   },
 
   tick: function (time, deltaTime) {
-    if (markerVisible["A"] && markerVisible["B"] && markerVisible["F"] && markerVisible["D"]) {
+    if (markerVisible["A"] && markerVisible["B"] && markerVisible["C"] && markerVisible["D"]) {
       this.A.object3D.getWorldPosition(this.pA);
       this.B.object3D.getWorldPosition(this.pB);
       this.C.object3D.getWorldPosition(this.pC);
       this.D.object3D.getWorldPosition(this.pD);
-      this.E.object3D.getWorldPosition(this.pE);
-
+  
       // Calculate distances
       let distanceAB = this.pA.distanceTo(this.pB);
       let distanceBC = this.pB.distanceTo(this.pC);
       let distanceCD = this.pC.distanceTo(this.pD);
-      let distanceDE = this.pD.distanceTo(this.pE);
-      let distanceEA = this.pE.distanceTo(this.pA);
-
+      let distanceDA = this.pD.distanceTo(this.pA);
+  
       // Calculate perimeter
-      let perimeter = distanceAB + distanceBC + distanceCD + distanceDE + distanceEA;
-
+      let perimeter = distanceAB + distanceBC + distanceCD + distanceDA;
+  
       // Calculate areas of triangles
-      let areaABF = calculateTriangleArea(this.pA, this.pB, this.pC);
+      let areaABC = calculateTriangleArea(this.pA, this.pB, this.pC);
       let areaBCD = calculateTriangleArea(this.pB, this.pC, this.pD);
-      let areaCDE = calculateTriangleArea(this.pC, this.pD, this.pE);
-      let areaDEA = calculateTriangleArea(this.pD, this.pE, this.pA);
-
+      let areaCDA = calculateTriangleArea(this.pC, this.pD, this.pA);
+  
       // Update text entities
       this.perimeterText.setAttribute('text', 'value: Perimeter: ' + perimeter.toFixed(2));
-      this.areaText1.setAttribute('text', 'value: Area (ABF): ' + areaABF.toFixed(2));
+      this.areaText1.setAttribute('text', 'value: Area (ABC): ' + areaABC.toFixed(2));
       this.areaText2.setAttribute('text', 'value: Area (BCD): ' + areaBCD.toFixed(2));
-      this.areaText3.setAttribute('text', 'value: Area (CDE): ' + areaCDE.toFixed(2));
-      this.areaText4.setAttribute('text', 'value: Area (DEA): ' + areaDEA.toFixed(2));
-
+      this.areaText3.setAttribute('text', 'value: Area (CDA): ' + areaCDA.toFixed(2));
+  
       // Update cylinder scales and visibility
       this.cylinderAB.scale.set(1, 1, distanceAB);
       this.cylinderBC.scale.set(1, 1, distanceBC);
       this.cylinderCD.scale.set(1, 1, distanceCD);
-      this.cylinderDE.scale.set(1, 1, distanceDE);
-      this.cylinderEA.scale.set(1, 1, distanceEA);
-
-      this.cylinderAB.visible = this.cylinderBC.visible = this.cylinderCD.visible = this.cylinderDE.visible = this.cylinderEA.visible = true;
+      this.cylinderEA.scale.set(1, 1, distanceDA);
+  
+      this.cylinderAB.visible = this.cylinderBC.visible = this.cylinderCD.visible = this.cylinderEA.visible = true;
     } else {
       // Hide cylinders if markers are not visible
-      this.cylinderAB.visible = this.cylinderBC.visible = this.cylinderCD.visible = this.cylinderDE.visible = this.cylinderEA.visible = false;
+      this.cylinderAB.visible = this.cylinderBC.visible = this.cylinderCD.visible = this.cylinderEA.visible = false;
     }
   }
 });
-
-function calculateTriangleArea(point1, point2, point3) {
-  // Use Heron's formula to calculate the area of a triangle
-  let a = point1.distanceTo(point2);
-  let b = point2.distanceTo(point3);
-  let c = point3.distanceTo(point1);
-  let s = (a + b + c) / 2;
-  return Math.sqrt(s * (s - a) * (s - b) * (s - c));
-}
