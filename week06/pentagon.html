@@ -1,29 +1,35 @@
 <html>
-	<head>
-		<script src="../aframe/aframe.min.js"></script>
-		<script src="../arjs/aframe-ar.js"></script>
-		<script src="pentagon.js"></script>
-	</head>
-	<body>
-		<a-scene embedded arjs>
-			<a-marker type='pattern' url='../assets/pattern-letterA.patt' registerevents id="A">
-				<a-sphere radius="0.10" color="red"></a-sphere>
-				<a-entity id="lineAB"></a-entity>
-			</a-marker>
-			<a-marker type='pattern' url='../assets/pattern-letterB.patt' registerevents id="B">
-				<a-sphere radius="0.10" color="red"></a-sphere>
-				<a-entity id="lineBC"></a-entity>
-			</a-marker>
-			<a-marker type='pattern' url='../assets/pattern-letterD.patt' registerevents id="D">
-				<a-sphere radius="0.10" color="red"></a-sphere>
-				<a-entity id="lineDA"></a-entity>
-			</a-marker>
-			<a-marker type='pattern' url='../assets/pattern-letterC.patt' registerevents id="F">
-				<a-sphere radius="0.10" color="red"></a-sphere>
-				<a-entity id="lineCD"></a-entity>
-			</a-marker>
-			<a-entity camera></a-entity>
-			<a-entity run></a-entity>
-		</a-scene>
-	</body>
+<head>
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/2.3.0/aframe/build/aframe-ar.js"></script>
+  <script src="pentagon.js"></script>
+</head>
+<body>
+  <a-scene embedded arjs>
+    <a-marker type='pattern' url='../assets/pattern-letterA.patt' registerevents id="A">
+      <a-sphere radius="0.10" color="red"></a-sphere>
+      <a-entity id="lineAB"></a-entity>
+    </a-marker>
+    <a-marker type='pattern' url='../assets/pattern-letterB.patt' registerevents id="B">
+      <a-sphere radius="0.10" color="red"></a-sphere>
+      <a-entity id="lineBC"></a-entity>
+    </a-marker>
+    <a-marker type='pattern' url='../assets/pattern-letterF.patt' registerevents id="C">
+      <a-sphere radius="0.10" color="red"></a-sphere>
+      <a-entity id="lineCD"></a-entity>
+    </a-marker>
+    <a-marker type='pattern' url='../assets/pattern-letterD.patt' registerevents id="D">
+      <a-sphere radius="0.10" color="red"></a-sphere>
+      <a-entity id="lineDA"></a-entity>
+    </a-marker>
+    <a-entity camera></a-entity>
+    <a-entity run></a-entity>
+
+    <!-- Text entities to display perimeter and areas -->
+    <a-entity id="perimeterText" position="0 2 -5" text="value: Perimeter: 0; color: #000;"></a-entity>
+    <a-entity id="areaText1" position="0 1.5 -5" text="value: Area (ABC): 0; color: #000;"></a-entity>
+    <a-entity id="areaText2" position="0 1 -5" text="value: Area (BCD): 0; color: #000;"></a-entity>
+    <a-entity id="areaText3" position="0 0.5 -5" text="value: Area (CDA): 0; color: #000;"></a-entity>
+  </a-scene>
+</body>
 </html>
