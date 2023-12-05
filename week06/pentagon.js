@@ -68,6 +68,20 @@ AFRAME.registerComponent('run', {
     this.lineEA = document.querySelector('#lineCA').object3D;
     this.lineEA.add(this.cylinderEA);
     this.cylinderEA.visible = false;
+    
+    this.lineAB = this.createLine();
+    this.lineBF = this.createLine();
+    this.lineFD = this.createLine();
+    this.lineDC = this.createLine();
+    this.lineCA = this.createLine();
+  },
+
+  createLine: function () {
+    let material = new THREE.LineBasicMaterial({ color: 0xFF0000 });
+    let geometry = new THREE.BufferGeometry();
+    let line = new THREE.Line(geometry, material);
+    this.el.sceneEl.object3D.add(line);
+    return line;
   },
 
   tick: function (time, deltaTime) {
