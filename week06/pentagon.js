@@ -1,4 +1,4 @@
-let markerVisible = { A: false, B: false, C: false };
+let markerVisible = { A: false, B: false, C: false, D: false};
 
 AFRAME.registerComponent('registerevents', {
   init: function () {
@@ -17,13 +17,16 @@ AFRAME.registerComponent('run', {
     this.A = document.querySelector("#A");
     this.B = document.querySelector("#B");
     this.C = document.querySelector("#C");
+    this.D = document.querySelector("#D");
     this.p0 = new THREE.Vector3();
     this.p1 = new THREE.Vector3();
     this.p2 = new THREE.Vector3();
+    this.p3 = new THREE.Vector3();
     
     this.createCylinderAndLine('AB', '#lineAB');
     this.createCylinderAndLine('BC', '#lineBC');
-    this.createCylinderAndLine('AC', '#lineAC');
+    this.createCylinderAndLine('CD', '#lineCD');
+    this.createCylinderAndLine('DA', '#lineDA');
   },
 
   createCylinderAndLine: function (cylinderId, lineId) {
@@ -49,17 +52,22 @@ AFRAME.registerComponent('run', {
       this.C.object3D.getWorldPosition(this.p2);
       this.updateCylinderAndLine(this.p1, this.p2, 'BC');
     }
-    if (markerVisible["A"] && markerVisible["C"]) {
-      this.A.object3D.getWorldPosition(this.p0);
+    if (markerVisible["C"] && markerVisible["D"]) {
       this.C.object3D.getWorldPosition(this.p2);
-      this.updateCylinderAndLine(this.p0, this.p2, 'AC');
+      this.D.object3D.getWorldPosition(this.p3);
+      this.updateCylinderAndLine(this.p2, this.p3, 'CD');
+    }
+    if (markerVisible["D"] && markerVisible["A"]) {
+      this.D.object3D.getWorldPosition(this.p3);  // Corrected to use D
+      this.A.object3D.getWorldPosition(this.p0);  // Corrected to use A
+      this.updateCylinderAndLine(this.p3, this.p0, 'DA');
     }
     if (!markerVisible["A"])
-      this.hideCylinders(['AB', 'AC']);
+      this.hideCylinders(['AB', 'DA']);  // Corrected to use 'DA'
     if (!markerVisible["B"])
       this.hideCylinders(['AB', 'BC']);
     if (!markerVisible["C"])
-      this.hideCylinders(['AC', 'BC']);
+      this.hideCylinders(['BC', 'CD']);
   },
 
   updateCylinderAndLine: function (point1, point2, cylinderId) {
